@@ -1,0 +1,6 @@
+/build
+*.bin
+*.elf
+
+compile_commands.json
+/.cache
