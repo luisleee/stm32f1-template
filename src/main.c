@@ -1,5 +1,6 @@
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
+#define LITTLE_BIT 200000
 
 int main(void) {
   rcc_periph_clock_enable(RCC_GPIOC);

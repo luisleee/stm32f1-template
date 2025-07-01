@@ -7,6 +7,9 @@
  * projects, "You're gonna have a bad day"
  */
 
+/*
+	For blue-pill, rom is 64K, ram is 20K
+*/
 MEMORY
 {
 	rom (rx) : ORIGIN = 0x08000000, LENGTH = 8K

@@ -9,9 +9,12 @@ SFLAGS+= -I./libopencm3/include -L./libopencm3/lib
 
 LFLAGS+=-Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
 
+# Change this part if it's not cortex-m3
 M3_FLAGS= $(SFLAGS) -mcpu=cortex-m3 -mthumb -msoft-float
 LFLAGS_STM32=$(LFLAGS) src/main.c -T src/ld.stm32.basic
-STM32F1_CFLAGS=$(M3_FLAGS) -DSTM32F1 -DLITTLE_BIT=200000 $(LFLAGS_STM32) -lopencm3_stm32f1
+
+# Change this part if it's not stm32f1
+STM32F1_CFLAGS=$(M3_FLAGS) -DSTM32F1 $(LFLAGS_STM32) -lopencm3_stm32f1
 
 PROJECT_NAME=template
 
