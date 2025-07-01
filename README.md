@@ -6,6 +6,8 @@ This is a template project for stm32f1 development.
 
 - arm-none-eabi-gcc
 - arm-none-eabi-binutils
+- cmake
+- make
 - stlink
 
 ## How to
@@ -13,13 +15,13 @@ This is a template project for stm32f1 development.
 ### build
  1. `git clone --recurse-submodules https://github.com/luisleee/stm32f1-template.git my-project`
  1. `cd my-project`
- 1. `cd libopencm3`
- 1. `make`
- 1. `cd ..`
- 1. `make`
+ 1. `./build.sh`
 
 ### flash
-`make flash`
+`./build.sh -f`
+
+### clean
+`./build.sh -c`
 
 ## LSP (clangd) support
-Use `bear -- make`
+Use `./build.sh --compile-cmds`
