@@ -8,7 +8,6 @@ This is a template project for stm32f1 development.
 - arm-none-eabi-binutils
 - cmake
 - make
-- stlink
 - openocd
 
 ## How to
@@ -23,6 +22,11 @@ This is a template project for stm32f1 development.
 
 ### clean
 `./build.sh -c`
+
+### debug (OpenOCD)
+`./build.sh --debug-all`
+
+// TODO: qemu debug
 
 ## LSP (clangd) support
 Use `./build.sh --compile-cmds`
