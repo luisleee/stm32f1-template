@@ -236,8 +236,18 @@ fi
 
 # 烧录目标
 if [[ $FLASH -eq 1 ]]; then
-    echo -e "${GREEN}Flashing target...${NC}"
-    cmake --build "$BUILD_DIR" --target flash
+    echo -e "${YELLOW}Warning: This will flash the firmware to the target device.${NC}"
+    echo -e "${YELLOW}Make sure the target device is properly connected.${NC}"
+    read -p "Do you want to continue? (y/N): " -n 1 -r
+    echo    # 换行
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo -e "${GREEN}Flashing target...${NC}"
+        cmake --build "$BUILD_DIR" --target flash
+    else
+        echo -e "${YELLOW}Flash operation cancelled.${NC}"
+        exit 0
+    fi
 fi
+
 
 echo -e "${GREEN}Build completed successfully!${NC}"
