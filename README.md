@@ -9,6 +9,7 @@ This is a template project for stm32f1 development.
 - cmake
 - make
 - stlink
+- openocd
 
 ## How to
 

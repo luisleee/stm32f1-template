@@ -99,18 +99,24 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
     COMMENT "Building ${PROJECT_NAME}.hex and ${PROJECT_NAME}.bin in build directory"
 )
 
-# 烧录目标 - 从build目录读取bin文件
+# 烧录目标 - 使用OpenOCD烧录elf文件
 add_custom_target(flash
-    COMMAND st-flash write ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.bin 0x8000000
+    COMMAND openocd -f interface/stlink.cfg -f target/stm32f1x.cfg -c "program ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf verify reset exit"
     DEPENDS ${PROJECT_NAME}.elf
-    COMMENT "Flashing the target from build directory"
+    COMMENT "Flashing the target using OpenOCD"
 )
 
-# 调试目标 - 从build目录加载elf文件
+# 启动OpenOCD服务器
+add_custom_target(openocd
+    COMMAND openocd -f interface/stlink.cfg -f target/stm32f1x.cfg
+    COMMENT "Starting OpenOCD server"
+)
+
+# 调试目标 - 连接到OpenOCD服务器
 add_custom_target(debug
-    COMMAND arm-none-eabi-gdb -ex "target remote localhost:4242" -ex "load" ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf
+    COMMAND arm-none-eabi-gdb -ex "target extended-remote localhost:3333" -ex "monitor reset halt" -ex "load" -ex "monitor reset init" ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.elf
     DEPENDS ${PROJECT_NAME}.elf
-    COMMENT "Starting GDB debug session"
+    COMMENT "Starting GDB debug session with OpenOCD"
 )
 
 # 显示内存使用情况
