@@ -1,6 +1,6 @@
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
-
+#include <stdio.h>
 #include "usart.h"
 
 int main(void) {
@@ -8,7 +8,7 @@ int main(void) {
     usart_setup(115200);
     
     while (1) {
-        send_str("Hello World!\r\n");
+        printf("Hello World! %d %.6f\r\n", 42, 114.514);
         for (int i = 0; i < 800000; i++) __asm__("nop");
     }
 }

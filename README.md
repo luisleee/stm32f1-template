@@ -6,6 +6,8 @@ This is a template project for stm32f1 development.
 
 - arm-none-eabi-gcc
 - arm-none-eabi-binutils
+- arm-none-eabi-newlib
+- arm-none-eabi-gdb
 - cmake
 - make
 - openocd

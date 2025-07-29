@@ -39,7 +39,8 @@ set(CMAKE_C_FLAGS "${COMMON_FLAGS} -std=c11 -DSTM32F1")
 set(CMAKE_ASM_FLAGS "${COMMON_FLAGS} -x assembler-with-cpp")
 
 # 链接标志
-set(CMAKE_EXE_LINKER_FLAGS "${COMMON_FLAGS} -static -nostartfiles -Wl,--gc-sections -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group")
+# 这里使用了newlib的nosys
+set(CMAKE_EXE_LINKER_FLAGS "${COMMON_FLAGS}  -static -nostartfiles -specs=nosys.specs -Wl,--gc-sections -Wl,--start-group -lc -lgcc -Wl,--end-group")
 
 # libopencm3配置
 set(LIBOPENCM3_DIR ${CMAKE_SOURCE_DIR}/libopencm3)
@@ -69,13 +70,28 @@ add_custom_command(
 add_custom_target(libopencm3 DEPENDS ${LIBOPENCM3_LIB})
 
 # 包含目录
+# 获取newlib路径
+execute_process(
+    COMMAND ${CMAKE_C_COMPILER} -print-sysroot
+    OUTPUT_VARIABLE ARM_SYSROOT
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+# 添加newlib头文件路径
+if(ARM_SYSROOT AND EXISTS "${ARM_SYSROOT}/include")
+    include_directories("${ARM_SYSROOT}/include")
+endif()
+
 include_directories(${LIBOPENCM3_DIR}/include ./include)
 
 # 链接目录
 link_directories(${LIBOPENCM3_DIR}/lib)
 
 # 源文件
-set(SOURCES src/main.c src/usart.c)
+set(SOURCES 
+    src/main.c 
+    src/usart.c
+)
 
 # 创建可执行文件
 add_executable(${PROJECT_NAME}.elf ${SOURCES})
