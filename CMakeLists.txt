@@ -69,13 +69,13 @@ add_custom_command(
 add_custom_target(libopencm3 DEPENDS ${LIBOPENCM3_LIB})
 
 # 包含目录
-include_directories(${LIBOPENCM3_DIR}/include)
+include_directories(${LIBOPENCM3_DIR}/include ./include)
 
 # 链接目录
 link_directories(${LIBOPENCM3_DIR}/lib)
 
 # 源文件
-set(SOURCES src/main.c)
+set(SOURCES src/main.c src/usart.c)
 
 # 创建可执行文件
 add_executable(${PROJECT_NAME}.elf ${SOURCES})

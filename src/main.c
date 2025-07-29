@@ -1,18 +1,14 @@
-#include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/rcc.h>
-#define LITTLE_BIT 200000
+#include <libopencm3/stm32/gpio.h>
+
+#include "usart.h"
 
 int main(void) {
-  rcc_periph_clock_enable(RCC_GPIOC);
-  gpio_set_mode(GPIOC, GPIO_MODE_OUTPUT_2_MHZ, GPIO_CNF_OUTPUT_PUSHPULL,
-                GPIO13);
-
-  gpio_set(GPIOC, GPIO13);
-  while (1) {
-    /* wait a little bit */
-    for (int i = 0; i < LITTLE_BIT; i++) {
-      __asm__("nop");
+    rcc_clock_setup_pll(&rcc_hse_configs[RCC_CLOCK_HSE8_72MHZ]);
+    usart_setup(115200);
+    
+    while (1) {
+        send_str("Hello World!\r\n");
+        for (int i = 0; i < 800000; i++) __asm__("nop");
     }
-    gpio_toggle(GPIOC, GPIO13);
-  }
 }
